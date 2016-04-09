@@ -1,4 +1,7 @@
-CREATE TABLE Skills(
-FOREIGN KEY (endorses) REFERENCES (Endorsement));
-INSERT INTO Skills(column1) 
-VALUES (Programming, Management, Reading, Writing, MSOffice);
+INSERT INTO skills (id, user, description) VALUES (001, John, Programming);
+
+UPDATE skills SET content = Management WHERE id = 001;
+
+DELETE FROM skills WHERE description = Programming;
+
+SELECT id FROM skills WHERE user = John;
