@@ -1,0 +1,12 @@
+
+Insert, run at the first sending of a message.
+INSERT INTO message (sender,receiver,content,time_sent) VALUES (270,452,"This is a test message",GETDATE());
+
+Update, run when the message is viewed: 
+UPDATE messagee SET time_viewed=GETDATE() WHERE time_sent="2014-11-22 12:45:34.243" AND sender=270 AND receiver=452;
+
+Delete, upon user prompt to delete: 
+DELETE FROM message WHERE column = time_sent="2014-11-22 12:45:34.243" AND sender=270 AND receiver=452;
+
+Select, used to parse all messages between two users: 
+SELECT context FROM message WHERE sender=270 AND receiver=452;
