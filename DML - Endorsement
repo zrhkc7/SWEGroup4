@@ -1,0 +1,3 @@
+SELECT user;
+FROM user_id;
+WHERE user_id LIKE pattern;
