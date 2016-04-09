@@ -1,0 +1,7 @@
+INSERT INTO photo (id, time_uploaded, url, user) VALUES (001, 02:45:30, www.heresapicture.fake, 120);
+
+UPDATE photo SET id = 002, time_uploaded = 15:29:00, url = www.wrongpicture.fake WHERE user = 120;
+
+DELETE FROM photo WHERE id = 002;
+
+SELECT url FROM photo WHERE id = 001, user = 102;

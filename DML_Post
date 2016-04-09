@@ -1,0 +1,7 @@
+INSERT INTO post (user_id, timestamp, content) VALUES (001, 15:36:00, This is my first post);
+
+UPDATE post SET content = This is my first updated post WHERE user_id = 001, timestamp = 15:36:00;
+
+DELETE FROM post WHERE timestamp = 15:36:00
+
+SELECT user_id FROM post WHERE content = This is my first post;
