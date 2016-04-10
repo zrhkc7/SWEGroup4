@@ -1,4 +1,7 @@
-CREATE TABLE Endorsement(
-SELECT user,
-FROM user_id,
-WHERE user_id LIKE pattern);
+INSERT INTO endorsement (endorsee, skill) VALUES (John, Programming);
+
+UPDATE endorsement SET endorsee = John WHERE skill = Programming;
+
+DELETE FROM endorsement WHERE skill = Programming;
+
+SELECT endorsee FROM endorsement WHERE endorsee = John;
