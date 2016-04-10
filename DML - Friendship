@@ -1,0 +1,11 @@
+Insert, run when the friendship is accepted by both users.
+INSERT INTO friendship (friend1,friend2,time_created) VALUES (270,452,GETDATE());
+
+Update, run when the friendship is viewed: 
+UPDATE friendship SET time_viewed=GETDATE() WHERE time_sent="2014-11-22 12:45:34.243" AND sender=270 AND receiver=452;
+
+Delete, upon a user removing the other user as a friend: 
+DELETE FROM friendship WHERE friend1=270 AND friend2=452;
+
+Select, used to return all friends of a specific user: 
+SELECT friend2 FROM friendship WHERE friend1=270;
