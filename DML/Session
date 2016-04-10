@@ -1,0 +1,17 @@
+// Create Session
+INSERT INTO `session` (`user`, `session_id`, `expiration_time`) VALUES (:user_id, :session_id, :expiration_time);
+
+// Extend session
+UPDATE `session` SET `expiration_time` = :expiration_time WHERE `session_id` = :session_id;
+
+// Validate session
+SELECT COUNT(*) FROM `session` WHERE `session_id` = :session_id AND `user` = :user_id AND `expiration_time` > CURRENT_TIMESTAMP;
+
+// Delete specific session
+DELETE FROM `session` WHERE `session_id` = :session_id;
+
+// Delete all sessions for user
+DELETE FROM `session` WHERE `user` = :user_id;
+
+// Delete all old session
+DELETE FROM `session` WHERE `expiration_time` < CURRENT_TIMESTAMP;
