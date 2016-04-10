@@ -1,0 +1,12 @@
+
+Insert, run when the user adds an education.
+INSERT INTO education (user,school,description,date) VALUES (270,"University of Missouri-Columbia","I went here and learned things","1/2/13");
+
+Update, run if the user edits their education: 
+UPDATE education SET description="I actually learned these things" WHERE user=270 AND school="University of Missouri-Columbia";
+
+Delete, upon user prompt to delete: 
+DELETE FROM education WHERE user=270 AND school="University of Missouri-Columbia";
+
+Select, used to view all schools visitied by one user: 
+SELECT school FROM education WHERE user=270;
