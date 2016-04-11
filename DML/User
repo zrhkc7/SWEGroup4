@@ -1,0 +1,17 @@
+// Create new User
+INSERT INTO `user` (`name`, `email`) VALUES (:name, :email);
+
+// Update User's Profile Info
+UPDATE `user` SET `current_employer` = :employer, `avatar` = :avatar, `phone` = :phone, `summary` = :summary WHERE `id` = :id;
+
+// Update email
+UPDATE `user` SET `email` = :new_email WHERE `email` = :old_email;
+
+// Get user info by id
+SELECT * FROM `user` WHERE `id` = :id;
+
+// Get 10 most recent users
+SELECT `id`, `name`, `avatar` FROM `user` ORDER BY `timestamp` DESC LIMIT 10;
+
+// Delete user by id
+DELETE FROM `user` WHERE `id` = :id;
