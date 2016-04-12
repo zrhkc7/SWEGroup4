@@ -18,6 +18,10 @@
 	function disconnectDB() {
 		return null;
 	}
+	
+	functions isLoggedIn() {
+		return null;
+	}
 
 	function getLoggedInUserId() {
 		return null;
@@ -68,7 +72,12 @@
 	}
 
 	function getCurrentURL($full = false) {
-		return null;
+		if ($full) {
+			return 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+		}
+		else {
+			return $_SERVER['PHP_SELF'];
+		}
 	}
 
 	function redirect($location = 'index.php') {
@@ -77,12 +86,54 @@
 	/* End Misc. Functions */
 
 	/* Begin Session Functions */
-	function createSession($user_id) {
-		return null;
+	function createSession() {
+		if (!($user_id = getLoggedInUserId())) {
+			return false;	
+		}
+		
+		// Variables
+		$session_id = uniqid();
+		$expiration_time = time() + 30 * 24 * 60 * 60;
+		
+		// Create session in DB
+		$stmt = $dbh->prepare("INSERT INTO `session` (`user`, `session_id`, `expiration_time`) VALUES (:user_id, :session_id, :expiration_time)");
+		$stmt->bindParam(":user_id", $user_id);
+		$stmt->bindParam(":session_id", $session_id);
+		$stmt->bindParam(":expiration_time", $expiration_time);
+		$stmt->execute();
+		
+		// Create cookie
+		setcookie("session_id", $session_id, $expiration_time);
+		
+		// Success
+		return true;
+	}
+	
+	function getCurrentSessionId() {
+		if (isset($_COOKIE['session_id'])) {
+			return $_COOKIE['session_id'];
+		}
+		else {
+			return false;
+		}
 	}
 
-	function validateSession($user_id, $session_id) {
-		return null;
+	function validateSession() {
+		if (!($user_id = getLoggedInUserId()) || !($session_id = getCurrentSessionId())) {
+			return false;
+		}
+		
+		$stmt = $dbh->prepare("SELECT COUNT(*) FROM `session` WHERE `user` = :user_id AND `session_id` = :session_id AND `expiration_time` > CURRENT_TIMESTAMP");
+		$stmt->bindParam(":user_id", $user_id);
+		$stmt->bindParam(":session_id", $session_id);
+		$stmt->execute();
+		
+	    if ($stmt->fetchColumn() == 1) {
+	        return true;
+	    }
+	    else {
+	        return false;
+	    }
 	}
 
 	function deleteSession($session_id) {
