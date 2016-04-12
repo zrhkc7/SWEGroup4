@@ -7,40 +7,72 @@
 	$debug = true;
 	$site_name = 'LinkedIn Clone';
 	$site_subtext = 'Software Engineering Project - Group 4';
+	$message_types = ['success', 'info', 'warning', 'danger'];
 
 	/** FUNCTIONS **/
 
 	/* Begin Misc. Functions */
+	
 	function connectDB() {
 		return null;
 	}
 
+	// Disconnect from the DB
 	function disconnectDB() {
-		return null;
+		$dbh = null;
 	}
 	
 	functions isLoggedIn() {
 		return null;
 	}
 
+	// Clamps a value between the min and max
+	function clamp($value, $min, $max) {
+		return max($min, min($max, $value));
+	}
+
+	// Get the user id of the user that is logged in
+	// -1 = Not logged in
 	function getLoggedInUserId() {
-		return null;
+		if (isset($user_id)) {
+			return $user_id;
+		}
+		else {
+			return -1;
+		}
 	}
 
-	function createErrorMessage($message, $type = 'warn', $expire = 12000) {
-		return null;
+	// Create message cookie
+	function createMessage($message, $type = 'info') {
+		// Check if supplied type is valid
+		if (!in_array($type, $message_types)) {
+			$type = $message_types[1];
+		}
+
+		// Get current messages in cookie
+		$currentCookie = getMessagesByType($type);
+		$currentCookie[] = $message;
+
+		// Set cookie
+		setcookie('msg-' . $type, json_encode($currentCookie), time() + 12000);
 	}
 
-	function createErrors($error_array) {
-		return null;
+	// Get message array of specific type
+	function getMessagesByType($type) {
+		// Check if supplied type is valid
+		if (!in_array($type, $message_types)) {
+			return null;
+		}
+
+		// Return json decoding of cookie if not empty, otherwise return empty array
+		return isset($_COOKIE['msg-' . $type]) ? json_decode($_COOKIE['msg-' . $type]) : [];
 	}
 
-	function getErrors() {
-		return null;
-	}
-
-	function clearErrors() {
-		return null;
+	// Empty out all messages
+	function clearMessages() {
+		foreach ($type in $message_types) {
+			setcookie('msg-' . $type, '', time() - 100);
+		}
 	}
 
 	function startPage() {
@@ -59,12 +91,20 @@
 		return null;
 	}
 
-	function formatTime($time, $format = null) {
+	function formatRelativeDate($time) {
 		return null;
 	}
 
-	function formatName($name, $short = false) {
+	function formatDate($time, $format = null) {
 		return null;
+	}
+
+	// Format user's name
+	function formatName($first, $last, $short = false) {
+		if ($short) {
+			$last = $last[0] . '.';
+		}
+		return $first . ' ' . $last;
 	}
 
 	function calculateTimeDifference($time1, $time2) {
@@ -81,7 +121,8 @@
 	}
 
 	function redirect($location = 'index.php') {
-		return null;
+		header("Location: " . $location);
+		die();
 	}
 	/* End Misc. Functions */
 
