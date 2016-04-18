@@ -8,6 +8,20 @@
     $site_subtext = 'Software Engineering Project - Group 4';
     $message_types = ['success', 'info', 'warning', 'danger'];
 
+    // Page Settings
+    $page_settings_defaults = [
+        "is_script" => false,
+        "security_level" => 1,
+        "header_visible" => true
+    ];
+
+    // Set page settings to defaults if not overridden
+    foreach($page_settings_defaults as $setting => $value) {
+        if (!isset($page_settings[$setting])) {
+            $page_settings[$setting] = $value;
+        }
+    }
+
     // Debug options
     if ($debug) {
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -27,9 +41,13 @@
         $logged_in = false;
     }
 
+    // Determine if header is visible
+    if (!$page_settings["is_script"] || $page_settings["header_visible"]) {
+        include 'header.php';
+    }
+
     /** FUNCTIONS **/
 
-    /* Begin Misc. Functions */
     function dbExecute($sql, $binds, $check_success = false) {
         if (!($dbh = getDB()) || !$sql) {
             return false;
