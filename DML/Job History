@@ -1,0 +1,8 @@
+
+INSERT INTO job_history (id, user, description, startDate, endDate) VALUES (001, Mike, Programmer, 2014-10-10, 2016-1-7);
+
+UPDATE job_history SET content = Doctor WHERE id = 001;
+
+DELETE FROM job_history WHERE description = Programmer;
+
+SELECT id FROM job_history WHERE user = 001;
