@@ -1,0 +1,7 @@
+INSERT INTO view (viewer, viewed, timestamp) VALUES (001, 002, 12:00:00);
+
+UPDATE view SET viewer = 003, timestamp = 1:00:00 WHERE viewed = 001;
+
+DELETE FROM view WHERE viewed = 002;
+
+SELECT viewed FROM view WHERE viewer = 001, timestamp = 1:02:00;
