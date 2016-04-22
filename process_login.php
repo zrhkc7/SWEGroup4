@@ -1,49 +1,56 @@
 <?php
-	include 'includes.php';
+    $page_settings = [
+        "is_script" => true,
+        "security_level" => 0,
+        "redirect_to" => "login.php"
+    ];
+    include 'includes.php';
 
-	if (!isset($_POST['email']) || !isset($_POST['password'])) {
-		die("Email or password not set");
-	}
-	else {
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-	}
-	// Get password information
-	$stmt = $dbh->prepare("SELECT * FROM `password` WHERE `user` = (SELECT `id` FROM `user` WHERE `email` = :email LIMIT 1)");
-	$stmt->bindParam(':email', $email);
-	$stmt->execute();
-	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (checkPostVariables('email', 'password')) {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+    }
+    else {
+        createPageMessage("Email or password not set", "danger");
+        redirect();
+    }
 
-	// Set some variables
-	$user_id = $result['user'];
-	$attempts = $result['attempts'];
+    // Get password information
+    if (!($password_info = getPasswordInfo($email))) {
+        createPageMessage("Email was not found", "danger");
+        redirect();
+    }
 
-	// Brute Force Check
-	if ($attempts > 5) {
-		die("Too many incorrect guesses.");
-	}
+    // Set some variables
+    $user_id = $password_info['user'];
+    $attempts = $password_info['attempts'];
+    $hashed_pass = $password_info['hashed_pass'];
 
-	// Check password
-	if (password_verify($password, $result['hashed_pass'])) {
-		$valid = true;
-		$output = "Password is Valid";
+    // Brute Force Check
+    if ($attempts > 5) {
+        createPageMessage("Too many incorrect guesses.", "danger");
+        redirect();
+    }
 
-	}
-	else {
-		$valid = false;
-		$output = "Password is Invalid";
-	}
+    // Check password
+    $valid = password_verify($password, $hashed_pass);
 
-	// Update attempts if need be
-	if ($attempts > 0 || $attempts < 5) {
-		// Reset when valid
-		if ($valid) {
-			$attempts = 0;
-		}
-		$stmt = $dbh->prepare("UPDATE `password` SET `attempts` = $attempts WHERE `user` = :user_id");
-		$stmt->bindParam(':user_id', $user_id);
-		$stmt->execute();
-	}
+    // Update attempts
+    updatePasswordAttempts($user_id, $valid, $attempts);
 
-	die($output);
+    // If password did not match
+    if (!$valid) {
+        createPageMessage("Password is invalid", "danger");
+        redirect();
+    }
+
+    // Attempt to create session
+    if (!createSession($user_id)) {
+        createPageMessage("Unable to create session", "danger");
+        redirect();
+    }
+
+    // Redirect on success
+    createPageMessage("Successfully logged in", "success");
+    redirect("index.php");
 ?>

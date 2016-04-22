@@ -1,32 +1,41 @@
 <?php
-	include 'includes.php';
+    $page_settings = [
+        "is_script" => true,
+        "redirect_to" => "register.php",
+        "security_level" => 0
+    ];
+    include 'includes.php';
 
-	// Check if variables are set	
-	if (!isset($_POST['email']) || !isset($_POST['password'])) {
-		die("Email or Password missing");
-	}
-	else {
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-	}
+    // Check if variables are set
+    if (!checkPostVariables('name', 'email', 'password')) {
+        createPageMessage("Email or Password missing", "danger");
+        redirect();
+    }
+    else {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+    }
 
-	// Check if email is 'valid'
-	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		die("Email is invalid");
-	}
+    // Check if email is 'valid'
+    if (!validateEmail($email)) {
+        createPageMessage("Email is invalid", "danger");
+        redirect();
+    }
 
-	// Create User entry
-	$stmt = $dbh->prepare("INSERT INTO `user` (`email`) VALUES (:email)");
-	$stmt->bindParam(':email', $email);
-	$stmt->execute();
-	$user_id = $dbh->lastInsertId();
-
-	// Create password entry
-	$stmt = $dbh->prepare("INSERT INTO `password` (`user`, `hashed_pass`) VALUES (:user, :hashed_pass)");
-	$stmt->bindParam(':user', $user_id);
-	$stmt->bindParam(':hashed_pass', password_hash($password, PASSWORD_BCRYPT));
-	$stmt->execute();
-
-	header("Location: index.php");
-	die();
+    // Create User entry
+    if ($user_id = createUser($name, $email, $password)) {
+        if (!createSession($user_id)) {
+            $redirect_to = "index.php";
+        }
+        else {
+            $redirect_to = "login.php";
+        }
+        createPageMessage("Successfully registered!", "success");
+        redirect($redirect_to);
+    }
+    else {
+        createPageMessage("Unable to create user: Email most likely in use", "danger");
+        redirect();
+    }
 ?>
