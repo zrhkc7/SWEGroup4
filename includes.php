@@ -12,7 +12,8 @@
     $page_settings_defaults = [
         "is_script" => false,
         "security_level" => 1,
-        "header_visible" => true
+        "header_visible" => true,
+        "redirect_to" => "index.php"
     ];
 
     // Set page settings to defaults if not overridden
@@ -39,14 +40,20 @@
     }
     else {
         $logged_in = false;
+        if ($page_settings["security_level"] > 0) {
+            redirect("login.php");
+        }
     }
 
     // Determine if header is visible
-    if (!$page_settings["is_script"] || $page_settings["header_visible"]) {
+    if (!$page_settings["is_script"]) {
         include 'header.php';
     }
 
     /** FUNCTIONS **/
+    function validateEmail($email) {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
 
     function dbExecute($sql, $binds, $check_success = false) {
         if (!($dbh = getDB()) || !$sql) {
@@ -165,7 +172,9 @@
 
     function getMessages() {
         if (isset($_COOKIE['messages'])) {
-            return json_decode($_COOKIE['messages'], true);
+            $messages = json_decode($_COOKIE['messages'], true);
+            clearMessages();
+            return $messages;
         }
         else {
             return [];
@@ -272,7 +281,11 @@
         }
     }
 
-    function redirect($location = 'index.php') {
+    function redirect($location = false) {
+        if (!$location) {
+            $page_settings = getGlobal('page_settings');
+            $location = $page_settings['redirect_to'];
+        }
         header("Location: " . $location);
         die();
     }
@@ -292,10 +305,11 @@
             ":session_id" => $session_id,
             ":expiration_time" => $expiration_time
         ];
-        if (dbExecute($sql, $binds)) {
+        if (dbExecute($sql, $binds, true)) {
             // Create cookies
             setcookie("user_id", $user_id, $expiration_time);
             setcookie("session_id", $session_id, $expiration_time);
+            return true;
         }
         else {
             return false;
@@ -349,15 +363,15 @@
             ":name" => $name,
             ":email" => $email
         ];
-        $user_id = dbInsert($sql, $binds);
-
-        // Create password
-        if (createPassword($user_id, $password)) {
-            return true;
-        }
-        else if ($user_id){
-            deleteUser($user_id);
-            return false;
+        if ($user_id = dbInsert($sql, $binds)) {
+            // Create password
+            if (createPassword($user_id, $password)) {
+                return $user_id;
+            }
+            else if ($user_id){
+                deleteUser($user_id);
+                return false;
+            }
         }
     }
 
