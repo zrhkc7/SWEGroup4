@@ -97,6 +97,7 @@ a,a:hover,a:focus,a:visited {
 
 #container {
     min-height: calc(100vh - 102px);
+    padding-bottom: 25px;
 }
 
 .footer {
