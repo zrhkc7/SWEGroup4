@@ -1,6 +1,7 @@
 <?php
     // Create database connection: $dbh
     include $_SERVER['DOCUMENT_ROOT']."/db.php";
+    //include 'db.php';
 
     // Global Variables
     $debug = true;
@@ -11,7 +12,7 @@
     // Page Settings
     $page_settings_defaults = [
         "is_script" => false,
-        "security_level" => 1,
+        "security_level" => 1, // 0: no security, 1: requires login
         "header_visible" => true,
         "redirect_to" => "index.php"
     ];
@@ -37,10 +38,14 @@
         if (!$logged_in) {
             logout();
         }
+        else {
+            $user_info = getUser($user_id);
+        }
     }
     else {
         $logged_in = false;
         if ($page_settings["security_level"] > 0) {
+            createPageMessage("Redirected because page requires login", "warning");
             redirect("login.php");
         }
     }

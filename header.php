@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script>var uid = <?=$user_id?>;</script>
         <link rel="stylesheet" href="CSS/main.css">
     </head>
     <body>
@@ -37,7 +39,7 @@
                         <?php
                             if ($logged_in) {
                         ?>
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
+                        <li><a href="profile.php?user=<?=$user_info['id']?>"><img src='<?=$user_info['avatar']?>'></span> My profile</a></li>
                         <?php
                             }
                             else {
@@ -54,7 +56,7 @@
 <?php
     }
 ?>
-        <div class='container'>
+        <div class='container' id='container'>
 <?php
     foreach (getMessages() as $msg_type => $messages) {
         foreach ($messages as $msg) {

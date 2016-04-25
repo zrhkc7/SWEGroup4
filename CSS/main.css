@@ -2,6 +2,11 @@ body {
     background-color: #eee;
 }
 
+.navbar {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
 .form-signin {
     margin-top: 25px;
     max-width: 330px;
@@ -45,7 +50,71 @@ body {
     margin-top: 10px;
 }
 
-.navbar {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.x.axis path {
+  display: none;
+}
+
+#views {
+    width: 100%;
+    border: 2px solid black;
+    background-color: white;
+    box-shadow: 5px 5px;
+}
+
+.profile-box {
+    display: inline-block;
+    text-align: center;
+}
+
+.profile-box:hover {
+    border-color: #547FC5;
+    color: #073377;
+}
+
+.profile-box-name {
+    font-size: 20px;
+}
+
+.profile-box img {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+}
+
+a,a:hover,a:focus,a:visited {
+    color: initial;
+}
+
+.page-header {
+    border-color: #222222;
+}
+
+#container {
+    min-height: calc(100vh - 102px);
+}
+
+.footer {
+    width: 100%;
+    height: 30px;
+    background-color: #222222;
+    text-align: center;
+    color: #9D9D9D;
+    line-height: 30px;
+}
+
+.nav img {
+    height: 35px;
+    width: 35px;
+    border-radius: 5px;
+    position: relative;
+    right: 5px;
+    display: inline-block;
+    float: left;
+    top: -8px;
 }
