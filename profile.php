@@ -9,10 +9,6 @@
     $is_friend = false;
     if (isset($_GET['user'])) {
         $profile_user = $_GET['user'];
-        if ($logged_in) {
-            createView($user_id, $profile_user);
-            $is_friend = checkFriendship($user_id, $profile_user);
-        }
     }
     elseif ($logged_in) {
         $is_my_profile = true;
@@ -27,6 +23,11 @@
     if (empty($profile_user_info)) {
         createPageMessage("User does not exist", "warning");
         redirect();
+    }
+
+    if ($logged_in && $user_id != $profile_user) {
+        createView($user_id, $profile_user);
+        $is_friend = checkFriendship($user_id, $profile_user);
     }
 
     $profile_user_info["num_friends"] = getNumberOfFriends($profile_user);
@@ -86,14 +87,14 @@
                 <input type="text" class="form-control" name="skill" placeholder='Skill Name'>
                 <input type="hidden" name="operation" value="add_skill">
             </div>
-            <button class="btn btn-block btn-primary" type="submit">Add</button>
+            <button class="btn btn-block btn-primary" type="submit">Add Skill</button>
         </form>
         <hr>
         <p><a class='btn btn-block btn-default' href='update_profile.php'>Edit profile</a>
         <p><a class='btn btn-block btn-default btn-overflow' href='profile.php?user=<?=$user_id?>'>View profile as other user's see it</a>
         <?php
         }
-        else {
+        else if (!$is_friend) {
         ?>
         <hr>
         <a class='btn btn-block btn-primary' href='add_friend.php?user=<?=$profile_user?>'>Add Friend</a>
