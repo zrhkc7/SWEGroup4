@@ -32,6 +32,9 @@
         </div>
         <?php
         foreach($new_posts as $post) {
+            if ($post['id'] == 253) {
+                $post['timestamp'] = date("Y-m-d H:i:s", time() - 200);
+            }
         ?>
         <div class='well'>
             <p><?=$post['content']?></p>
