@@ -241,15 +241,15 @@
         $year = 60*60*24*7*30*365;
 
         if ($secs < 0) { return formatDate($secs);
-        }elseif ($secs == 0) { return "now";
-        }elseif ($secs > $second && $secs < $minute) { $output = round($secs/$second)." second";
+        }elseif ($secs == 0) { return "0 seconds";
+        }elseif ($secs >= $second && $secs < $minute) { $output = round($secs/$second)." second";
         }elseif ($secs >= $minute && $secs < $hour) { $output = round($secs/$minute)." minute";
         }elseif ($secs >= $hour && $secs < $day) { $output = round($secs/$hour)." hour";
         }elseif ($secs >= $day && $secs < $week) { $output = round($secs/$day)." day";
         }elseif ($secs >= $week && $secs < $month) { $output = round($secs/$week)." week";
         }elseif ($secs >= $month && $secs < $year) { $output = round($secs/$month)." month";
         }elseif ($secs >= $year && $secs < $year*10) { $output = round($secs/$year)." year";
-        }else{ $output = " more than a decade ago"; }
+        }else{ $output = " more than a decade"; }
 
         if ($output <> "now") {
             $output = (substr($output,0,2)<>"1 ") ? $output."s" : $output;
