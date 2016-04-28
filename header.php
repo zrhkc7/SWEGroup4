@@ -63,12 +63,12 @@
                                 <li><a href='profile.php'>My Profile</a></li>
                                 <li><a href='update_profile.php'>Edit Profile</a></li>
                                 <li><a href='#'>Friends</a></li>
-                                <li><a href='view_messages.php'>Send Message</a></li>
+                                <li><a href='messages.php'>Send Message</a></li>
                                 <li><a href='logout.php'>Logout</a></li>
                             </ul>
                         </li>
                         <li class='<?= $user_info["num_messages"] > 0 ? "havemail" : "" ?>'>
-                            <a href='view_messages.php'>
+                            <a href='messages.php'>
                                 <span class="glyphicon glyphicon-envelope"></span>
                             <?php
                                 if ($user_info["num_messages"] > 0) {

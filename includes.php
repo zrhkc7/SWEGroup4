@@ -850,7 +850,7 @@
     }
 
     function getPosts($user_id, $amount = 10, $offset = 0) {
-        $sql = "SELECT * FROM `post` WHERE `user_id` = :user_id LIMIT :offset,:amount";
+        $sql = "SELECT * FROM `post` WHERE `user_id` = :user_id ORDER BY `timestamp` DESC LIMIT :offset,:amount";
         $binds = [
             ":user_id" => $user_id,
             ":offset" => $offset,
@@ -865,6 +865,7 @@
             ":post_id" => $post_id,
             ":user_id" => $user_id
         ];
+        return dbExecute($sql, $binds, true);
     }
 
     // Could merge this into getPosts but I'm tired lol
