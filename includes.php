@@ -8,6 +8,7 @@
     $site_name = 'LinkedIn Clone';
     $site_subtext = 'Software Engineering Project - Group 4';
     $message_types = ['success', 'info', 'warning', 'danger'];
+    $default_avatar = "http://jeanbaptiste.bayle.free.fr/AVATAR/grey_81618-default-avatar-200x200.jpg";
 
     // Page Settings
     $page_settings_defaults = [
@@ -40,6 +41,7 @@
         }
         else {
             $user_info = getUser($user_id);
+            $user_info["num_messages"] = getNumberOfMessages($user_id);
         }
     }
     else {
@@ -257,10 +259,10 @@
 
     function formatDate($time, $format = null) {
         if ($format == null) {
-            return date($time, "M j, Y");
+            return date("M j, Y", $time);
         }
         else {
-            return date($time, $format);
+            return date($format, $time);
         }
     }
 
@@ -578,7 +580,7 @@
     }
 
     function getViewsSinceDate($user_id, $date) {
-        return getViews($user_id, $date, date());
+        return getViews($user_id, $date, time());
     }
 
     function checkUserHasViewed($viewer, $viewed) {
