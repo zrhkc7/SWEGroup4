@@ -68,19 +68,28 @@
         <?php
         foreach (getUserSkills($profile_user) as $skill) {
         ?>
-        <span class='label label-info'><?=$skill["description"]?></span>
+        <span class='label label-info'><?=$skill["description"]?>   <span class='glyphicon glyphicon-remove'>   </span>
         <?php
         }
         if ($is_my_profile) {
         ?>
         <hr>
-        <form method='POST' action='add_skill.php'>
+        <form method='POST' action='process_skill.php'>
             <div class="form-group">
                 <label>Add Skill</label>
-                <input type="text" class="form-control" placeholder='Skill Name'>
+                <input type="text" class="form-control" name="skill" placeholder='Skill Name'>
+                <input type="hidden" name="operation" value="add_skill">
             </div>
             <button class="btn btn-block btn-primary" type="submit">Add</button>
         </form>
+        <br><p><b>Remove Skills</b></p>
+        <?php
+        foreach (getUserSkills($profile_user) as $skill) {
+        ?>
+        <a href='process_skill.php?id=<?=$skill['id']?>&operation=delete_skill'><span class='label label-info'><?=$skill["description"]?></span></a>
+        <?php
+        }
+        ?>
         <hr>
         <p><a class='btn btn-block btn-default' href='update_profile.php'>Edit profile</a>
         <p><a class='btn btn-block btn-default btn-overflow' href='profile.php?user=<?=$user_id?>'>View profile as other user's see it</a>
@@ -102,10 +111,11 @@
         <?php
         if ($is_my_profile) {
         ?>
-        <form method='POST' action='add_post.php' class='add-post'>
+        <form method='POST' action='process_post.php' class='add-post'>
             <div class='form-group'>
-                <textarea class='form-control' placeholder='New post'></textarea>
+                <textarea name="content" class='form-control' placeholder='New post'></textarea>
             </div>
+            <input type="hidden" name="operation" value="add_post">
             <button class='btn btn-block btn-primary'>Add Post</button>
         </form>
         <?php
@@ -113,7 +123,13 @@
         foreach (getPosts($profile_user) as $post) {
         ?>
         <div class='well post-relative'>
-            <a href='delete_post.php?post=<?=$post['id']?>'><span class='glyphicon glyphicon-remove post-delete'></span></a>
+            <?php
+            if ($is_my_profile) {
+            ?>
+            <a href='process_post.php?id=<?=$post['id']?>&operation=delete_post'><span class='glyphicon glyphicon-remove post-delete'></span></a>
+            <?php
+            }
+            ?>
             <p><?=$post["content"]?></p>
             <p class='text-right'>Posted <?=formatRelativeDate(strtotime($post["timestamp"]))?> ago</p>
         </div>
