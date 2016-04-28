@@ -1,7 +1,7 @@
 <?php
     $page_settings = [
         "is_script" => true,
-        "redirect_to" => "update_profile.php"
+        "redirect_to" => "profile.php"
     ];
     include 'includes.php';
 
@@ -19,6 +19,6 @@
     }
     else {
         createPageMessage("Failed to update user info", "warning");
-        redirect();
+        redirect("update_profile.php");
     }
 ?>
