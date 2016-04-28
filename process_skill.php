@@ -10,12 +10,12 @@
 
         $skill = $_POST["skill"];
     
-        if (createSkill($user_id, $skill)) {
+        if ($skill!="" && createSkill($user_id, $skill)) {
             createPageMessage("Successfully saved skill", "success");
             redirect();
         }
         else {
-            createPageMessage("Failed to save skill".$user_id.$skill, "warning");
+            createPageMessage("Failed to save skill", "warning");
             redirect("profile.php");
         }
 

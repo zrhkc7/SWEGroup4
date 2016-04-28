@@ -67,10 +67,16 @@
         <p><b>Skills</b></p>
         <?php
         foreach (getUserSkills($profile_user) as $skill) {
+            if($is_my_profile){
         ?>
-        <span class='label label-info'><?=$skill["description"]?>   <span class='glyphicon glyphicon-remove'>   </span>
+                <span  style="margin:2px" class='label label-info'><?=$skill["description"]?>   <a href='process_skill.php?id=<?=$skill['id']?>&operation=delete_skill'><span class='glyphicon glyphicon-remove'></span></a></span></span>
+         <?php
+            }else{
+        ?> 
+                <span class='label label-info'><?=$skill["description"]?></span>
         <?php
-        }
+            }
+        }   
         if ($is_my_profile) {
         ?>
         <hr>
@@ -82,14 +88,6 @@
             </div>
             <button class="btn btn-block btn-primary" type="submit">Add</button>
         </form>
-        <br><p><b>Remove Skills</b></p>
-        <?php
-        foreach (getUserSkills($profile_user) as $skill) {
-        ?>
-        <a href='process_skill.php?id=<?=$skill['id']?>&operation=delete_skill'><span class='label label-info'><?=$skill["description"]?></span></a>
-        <?php
-        }
-        ?>
         <hr>
         <p><a class='btn btn-block btn-default' href='update_profile.php'>Edit profile</a>
         <p><a class='btn btn-block btn-default btn-overflow' href='profile.php?user=<?=$user_id?>'>View profile as other user's see it</a>
