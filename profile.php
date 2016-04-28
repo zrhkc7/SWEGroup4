@@ -73,11 +73,11 @@
                 <span  style="margin:2px" class='label label-info'><?=$skill["description"]?>   <a href='process_skill.php?id=<?=$skill['id']?>&operation=delete_skill'><span class='glyphicon glyphicon-remove'></span></a></span></span>
          <?php
             }else{
-        ?> 
+        ?>
                 <span class='label label-info'><?=$skill["description"]?></span>
         <?php
             }
-        }   
+        }
         if ($is_my_profile) {
         ?>
         <hr>
@@ -94,10 +94,16 @@
         <p><a class='btn btn-block btn-default btn-overflow' href='profile.php?user=<?=$user_id?>'>View profile as other user's see it</a>
         <?php
         }
-        else if (!$is_friend) {
+        else if (!$is_friend && $user_id != $profile_user) {
         ?>
         <hr>
         <a class='btn btn-block btn-primary' href='add_friend.php?user=<?=$profile_user?>'>Add Friend</a>
+        <?php
+        }
+        else if ($is_friend && $user_id != $profile_user) {
+        ?>
+        <hr>
+        <a class='btn btn-block btn-danger' href='remove_friend.php?user=<?=$profile_user?>'>Un-Friend</a>
         <?php
         }
         ?>
