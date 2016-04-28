@@ -363,6 +363,13 @@
         return dbSelect($sql, $binds);
     }
 
+    function getUserByName($name) {
+        $sql = "SELECT * FROM `user` WHERE `name` = :user_id LIMIT 1";
+        $binds = [":user_id" => $name];
+
+        return dbSelect($sql, $binds);
+    }
+
     function createUser($name, $email, $password) {
         // Create user
         $sql = "INSERT INTO `user` (`name`, `email`) VALUES (:name, :email)";
@@ -611,7 +618,7 @@
     }
 
     function getUserMessages($user_id, $amount = 25) {
-        $sql = "SELECT * FROM `message` WHERE `receiver` = :user_id LIMIT :amount";
+        $sql = "SELECT * FROM `message` WHERE `receiver` = :user_id ORDER BY `time_sent` DESC LIMIT :amount";
         $binds = [
             ":user_id" => $user_id,
             ":amount" => $amount

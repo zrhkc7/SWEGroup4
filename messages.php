@@ -5,7 +5,7 @@
     ];
     include 'includes.php';
 
-    $messages=getUserMessages(getUserID(), $amount = 25);
+    $messages=getUserMessages($user_id, $amount = 25);
 
     echo "<h1>Messages</h1>";
    	if(empty($messages)){
@@ -13,7 +13,7 @@
    	}
 
    	echo '<br>
-   			<form action=process_create_message.php>
+   			<form action=process_message.php>
    		  		<h3>Send a Message</h3>
 				Name: <input type="text" name="reciever">
 				Message: <input type="text" name="content" size="50">
