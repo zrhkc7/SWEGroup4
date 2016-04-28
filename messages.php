@@ -7,6 +7,10 @@
 
     $messages=getUserMessages($user_id, $amount = 25);
 
+    // $sql = "UPDATE `message` SET `time_viewed` = CURRENT_TIMESTAMP WHERE `receiver` = :user_id AND `time_viewed` IS NULL";
+    // $binds = [":user_id" => $user_id];
+    // dbExecute($sql, $binds);
+
     echo "<h1>Messages</h1>";
    	if(empty($messages)){
    		echo "<h1 align=center>No messages</h1>";
@@ -22,7 +26,9 @@
 			</form><br><br>';
 
    	foreach ($messages as $message){
-
+      if(isMessageRead($message['id'])==false){
+        markMessageRead($message['id']);
+      }
    		$sender=getUser($message['sender']);
    		echo '<div class="row">
           <div class="panel panel-default text-left">
@@ -34,6 +40,11 @@
         echo '<p align=right>Sent time not found</p>';
       }else{
             echo '<p align=right>Sent '.formatRelativeDate(strtotime($message['time_sent'])).' ago</p>';        
+      }
+      if($message['time_viewed']==NULL){
+        echo '<p align=right>Viewed now</p>';
+      }else{
+            echo '<p align=right>Viewed '.formatRelativeDate(strtotime($message['time_viewed'])).' ago</p>';        
       }
       echo '</div>
         </div>

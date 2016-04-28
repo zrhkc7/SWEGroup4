@@ -20,6 +20,7 @@
     <body>
 
 <?php
+    $messages = getMessages();
     if ($page_settings["header_visible"]) {
 ?>
 
@@ -97,7 +98,7 @@
 ?>
         <div class='container' id='container'>
 <?php
-    foreach (getMessages() as $msg_type => $messages) {
+    foreach ($messages as $msg_type => $messages) {
         foreach ($messages as $msg) {
 ?>
             <div class="alert alert-<?= $msg_type ?> alert-dismissible" role="alert">

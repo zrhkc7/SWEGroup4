@@ -602,11 +602,12 @@
 
     /* Begin Message Functions */
     function createMessage($sender, $receiver, $content) {
-        $sql = "INSERT INTO `message` (`sender`, `receiver`, `content`) VALUES (:sender, :receiver, :content)";
+        $sql = "INSERT INTO `message` (`sender`, `receiver`, `content`,`time_viewed`) VALUES (:sender, :receiver, :content, :time_viewed)";
         $binds = [
             ":sender" => $sender,
             ":receiver" => $receiver,
-            ":content" => $content
+            ":content" => $content,
+            ":time_viewed" => NULL
         ];
         return dbInsert($sql, $binds);
     }

@@ -12,7 +12,7 @@
     if($reciever!=false){
         $reciever_id=$reciever['id'];
         if ($message!="" && createMessage($sender,$reciever_id,$message)) {
-            createPageMessage("Successfully sent message".$sender." ".$reciever_id." ".$message, "success");
+            createPageMessage("Successfully sent message", "success");
             redirect("messages.php");
         }
         else {
