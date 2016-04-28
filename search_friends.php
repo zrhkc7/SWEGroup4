@@ -33,7 +33,7 @@
         <a href='profile.php?user=<?=$user['id']?>'>
         <div class='panel panel-default profile-box'>
             <div class='panel-body'>
-                <img src='<?=$user['avatar']?>'><br>
+                <img src='<?=$user['avatar']?$user['avatar']:"http://wiseheartdesign.com/images/articles/default-avatar.png"?>'><br>
                 <span class='profile-box-name'><?=$user['name']?></span><br>
                 <?=$user['current_employer'] ? $user['current_employer'] : "N/A"?>
             </div>

@@ -87,9 +87,11 @@ body {
     border-radius: 5px;
 }
 
+/*
 a,a:hover,a:focus,a:visited {
     color: initial;
 }
+*/
 
 .page-header {
     border-color: #222222;
@@ -118,4 +120,124 @@ a,a:hover,a:focus,a:visited {
     display: inline-block;
     float: left;
     top: -8px;
+}
+
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.node-active{
+  stroke: #555;
+  stroke-width: 1.5px;
+}
+
+
+.link {
+  stroke: #555;
+  stroke-opacity: .3;
+}
+
+.link-active {
+  stroke-opacity: 1;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+#map{
+    width: 100%;
+    border: 2px solid black;
+    background-color: white;
+    box-shadow: 5px 5px;
+}
+
+path.link {
+    fill: none;
+    stroke-width: 2px;
+}
+.node:not(:hover) .nodetext {
+    display: none;
+}
+
+.nodetext {
+    z-index: 1000 !important;
+    fill: black;
+    font-size: 18px;
+    stroke: none;
+}
+
+.node-image {
+    z-index: 1;
+    cursor: pointer;
+}
+
+#nav-search {
+    float: left !important;
+}
+
+#nav-search input {
+    transition: width 500ms ease-in-out;
+    width: 0;
+    float: right;
+}
+
+#nav-search input:focus {
+    width: 100%;
+}
+
+.inbox-amount {
+    position: absolute;
+    bottom: 0;
+    width: 50px;
+    text-align: center;
+    left: -3px;
+}
+
+.havemail span{
+    color: orange;
+}
+
+.profile-avatar {
+    width: 150px;
+}
+
+.sidebar-avatar {
+    width: 75%;
+}
+
+.add-post {
+    padding-bottom: 15px;
+}
+
+.add-post textarea {
+    width: 100% !important;
+}
+
+.btn-overflow {
+    white-space: normal;
+}
+
+.active {
+    background-color: #4A4A4A;
+}
+
+.active-drop {
+    background-color: #C7C7C7;
+}
+
+.post-relative {
+    position: relative;
+}
+.post-relative .text-right {
+    margin-bottom: 0;
+}
+
+.post-delete {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: black;
 }

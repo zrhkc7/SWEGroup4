@@ -8,6 +8,7 @@
     $site_name = 'LinkedIn Clone';
     $site_subtext = 'Software Engineering Project - Group 4';
     $message_types = ['success', 'info', 'warning', 'danger'];
+    $default_avatar = "http://jeanbaptiste.bayle.free.fr/AVATAR/grey_81618-default-avatar-200x200.jpg";
 
     // Page Settings
     $page_settings_defaults = [
@@ -40,6 +41,7 @@
         }
         else {
             $user_info = getUser($user_id);
+            $user_info["num_messages"] = getNumberOfMessages($user_id);
         }
     }
     else {
@@ -239,15 +241,15 @@
         $year = 60*60*24*7*30*365;
 
         if ($secs < 0) { return formatDate($secs);
-        }elseif ($secs == 0) { return "now";
-        }elseif ($secs > $second && $secs < $minute) { $output = round($secs/$second)." second";
+        }elseif ($secs == 0) { return "0 seconds";
+        }elseif ($secs >= $second && $secs < $minute) { $output = round($secs/$second)." second";
         }elseif ($secs >= $minute && $secs < $hour) { $output = round($secs/$minute)." minute";
         }elseif ($secs >= $hour && $secs < $day) { $output = round($secs/$hour)." hour";
         }elseif ($secs >= $day && $secs < $week) { $output = round($secs/$day)." day";
         }elseif ($secs >= $week && $secs < $month) { $output = round($secs/$week)." week";
         }elseif ($secs >= $month && $secs < $year) { $output = round($secs/$month)." month";
         }elseif ($secs >= $year && $secs < $year*10) { $output = round($secs/$year)." year";
-        }else{ $output = " more than a decade ago"; }
+        }else{ $output = " more than a decade"; }
 
         if ($output <> "now") {
             $output = (substr($output,0,2)<>"1 ") ? $output."s" : $output;
@@ -257,10 +259,10 @@
 
     function formatDate($time, $format = null) {
         if ($format == null) {
-            return date($time, "M j, Y");
+            return date("M j, Y", $time);
         }
         else {
-            return date($time, $format);
+            return date($format, $time);
         }
     }
 
@@ -578,7 +580,7 @@
     }
 
     function getViewsSinceDate($user_id, $date) {
-        return getViews($user_id, $date, date());
+        return getViews($user_id, $date, time());
     }
 
     function checkUserHasViewed($viewer, $viewed) {
@@ -848,7 +850,7 @@
     }
 
     function getPosts($user_id, $amount = 10, $offset = 0) {
-        $sql = "SELECT * FROM `post` WHERE `user_id` = :user_id LIMIT :offset,:amount";
+        $sql = "SELECT * FROM `post` WHERE `user_id` = :user_id ORDER BY `timestamp` DESC LIMIT :offset,:amount";
         $binds = [
             ":user_id" => $user_id,
             ":offset" => $offset,
@@ -863,6 +865,7 @@
             ":post_id" => $post_id,
             ":user_id" => $user_id
         ];
+        return dbExecute($sql, $binds, true);
     }
 
     // Could merge this into getPosts but I'm tired lol

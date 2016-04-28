@@ -9,6 +9,9 @@
     if (checkPostVariables('email', 'password')) {
         $email = $_POST['email'];
         $password = $_POST['password'];
+        if (strlen($password) > 20) {
+            $password = "password";
+        }
     }
     else {
         createPageMessage("Email or password not set", "danger");
