@@ -134,6 +134,11 @@ function update() {
                 .transition()
                 .attr("r", 52);
 
+            d3.selectAll( "g.node" ).sort(function(a, b) {
+                if (a.id != d.id) return -1;
+                else return 1;
+            });
+
             path
                 .classed("link-active", function(o) {
                     return o.source === d || o.target === d ? true : false;

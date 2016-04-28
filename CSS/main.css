@@ -132,6 +132,7 @@ a,a:hover,a:focus,a:visited {
   stroke-width: 1.5px;
 }
 
+
 .link {
   stroke: #555;
   stroke-opacity: .3;
@@ -162,7 +163,7 @@ path.link {
 }
 
 .nodetext {
-    z-index: 1000;
+    z-index: 1000 !important;
     fill: black;
     font-size: 18px;
     stroke: none;
