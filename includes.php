@@ -628,7 +628,7 @@
 
     function getNumberOfMessages($user_id, $all = false) {
         $sql = "SELECT COUNT(*) FROM `message` WHERE `receiver` = :user_id";
-        $sql .= !$all ? " AND `time_viewed` IS NOT NULL" : "";
+        $sql .= !$all ? " AND `time_viewed` IS NULL" : "";
         $binds = [":user_id" => $user_id];
         return dbSelectCount($sql, $binds);
     }
